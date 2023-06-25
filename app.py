@@ -19,7 +19,7 @@ def page_not_found(error):
     app.logger.error('Página no encontrada: %s', (request.path))
     
     # Renderiza la plantilla de error personalizada
-    return render_template('error.html', error_message='Página no encontrada'), 404
+    return render_template('pages/error.html', error_message='Página no encontrada'), 404
 
 @app.errorhandler(500)
 def internal_server_error(error):
@@ -27,7 +27,7 @@ def internal_server_error(error):
     app.logger.error('Error interno del servidor: %s', (error))
     
     # Renderiza la plantilla de error personalizada
-    return render_template('error.html', error_message='Error interno del servidor'), 500
+    return render_template('pages/error.html', error_message='Error interno del servidor'), 500
 
 # Función para obtener el rango de un usuario
 def get_rank(username):
@@ -213,13 +213,6 @@ def editar_usuario():
     username = request.args.get('username')
     user_info = get_user_info(username)
     return render_template('editar_usuario.html', user_info=user_info)
-
-
-
-
-
-
-
 
 # Inyecta el usuario actual en el contexto de la aplicación
 @app.context_processor
