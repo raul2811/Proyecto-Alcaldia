@@ -1,0 +1,31 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+  <h1>Eliminar Usuarios</h1>
+  {% if mensaje %}
+    <p>{{ mensaje }}</p>
+  {% endif %}
+  <form action="/eliminar_usuario" method="POST">
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for usuario in usuarios %}
+          <tr>
+            <td>{{ usuario }}</td>
+            {% if usuario != 'admin' %}
+              <td><input type="checkbox" name="usuarios_eliminar" value="{{ usuario }}"></td>
+            {% else %}
+              <td><input type="checkbox" name="usuarios_eliminar" value="{{ usuario }}" disabled></td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <input type="submit" value="Eliminar Usuarios">
+  </form>
+{% endblock %}

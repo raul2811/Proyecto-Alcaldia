@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alcaldia de panama</title>
+  <link rel="icon" href="/venv/static/images/icono.png" type="image/png">
+</head>
+<body>
+  <header>
+    <a href="/logout">Logout</a>
+  </header>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+  {% include 'partials/footer.html' %}
+</body>
+
+</html>

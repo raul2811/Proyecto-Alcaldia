@@ -1,0 +1,8 @@
+{% extends 'pages/base.html' %}
+{% block content %}
+<h1>Gestor de Usuarios</h1>
+  <form action="/gestor_usuarios" method="POST">
+    <input type="submit" name="crear_usuario" value="Crear Usuario">
+    <input type="submit" name="eliminar_usuario" value="Eliminar Usuario">
+  </form>
+{% endblock %}
