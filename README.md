@@ -65,26 +65,33 @@ def crear_usuario():
 ```
 Eliminación de usuarios: Los usuarios con rol de "admin" pueden eliminar usuarios existentes. Sin embargo, el usuario "admin" no se puede eliminar para evitar la pérdida de acceso a la administración del sistema.
 ```python
+@app.route('/eliminar_usuario', methods=['GET', 'POST'])
 def eliminar_usuario():
     if not is_admin():
         return redirect('/')
 
-    usuarios_eliminar = request.form.getlist('usuarios_eliminar')
+    if request.method == 'POST':
+        confirmacion = request.form.get('confirmacion')
+        if confirmacion == 'confirmado':
+            usuarios_eliminar = request.form.getlist('usuarios_eliminar')
+            usuarios_eliminados = []
+            for usuario in usuarios_eliminar:
+                if usuario != 'admin':
+                    # Eliminar usuario de la base de datos
+                    collection.update_one({'usuarios.username': usuario}, {'$pull': {'usuarios': {'username': usuario}}})
+                    usuarios_eliminados.append(usuario)
 
-    # Eliminar usuarios seleccionados
-    usuarios_eliminados = []
-    for usuario in usuarios_eliminar:
-        if usuario != 'admin':
-            # Eliminar usuario de la base de datos
-            collection.update_one({}, {'$pull': {'usuarios': {'username': usuario}}})
-            usuarios_eliminados.append(usuario)
+            mensaje = None
+            if usuarios_eliminados:
+                mensaje = "Los siguientes usuarios han sido eliminados exitosamente: {}".format(", ".join(usuarios_eliminados))
 
-    mensaje = None
-    if usuarios_eliminados:
-        mensaje = "Los siguientes usuarios han sido eliminados exitosamente: {}".format(", ".join(usuarios_eliminados))
+            # Obtener usuarios actualizados después de eliminar
+            usuarios = get_usuarios()[0]  # Obtener solo los usuarios sin el total
 
-    usuarios = get_usuarios()
-    return render_template('pages/eliminar_usuario.html', usuarios=usuarios, mensaje=mensaje)
+            return render_template('pages/eliminar_usuario.html', usuarios=usuarios, mensaje=mensaje)
+
+    usuarios = get_usuarios()[0]  # Obtener solo los usuarios sin el total
+    return render_template('pages/eliminar_usuario.html', usuarios=usuarios)
 ```
 El sistema proporciona una interfaz web que permite a los administradores acceder al gestor de usuarios. En esta interfaz, pueden crear y eliminar usuarios, así como ver una lista de los usuarios existentes.
 
