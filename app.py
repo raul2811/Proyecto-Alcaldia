@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, session , flash
+from flask import Flask, render_template, request, redirect, session , flash ,make_response
 from flask_paginate import Pagination, get_page_args
 import secrets
 from pymongo import MongoClient
-from datetime import datetime
+from datetime import datetime ,timedelta
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -12,6 +12,9 @@ current_year = datetime.now().year
 client = MongoClient('mongodb://localhost:27017')
 db = client['Usuarios']
 collection = db['users']
+
+# Configuración de la duración de la sesión
+app.permanent_session_lifetime = timedelta(minutes=30)
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -54,16 +57,22 @@ def is_admin():
 def eliminar_usuario():
     if not is_admin():
         return redirect('/')
-
+    
     usuarios_eliminar = request.form.getlist('usuarios_eliminar')
 
     # Eliminar usuarios seleccionados
     usuarios_eliminados = []
     for usuario in usuarios_eliminar:
         if usuario != 'admin':
-            # Eliminar usuario de la base de datos
+            # Eliminar usuario del array
             collection.update_one({}, {'$pull': {'usuarios': {'username': usuario}}})
             usuarios_eliminados.append(usuario)
+
+    # Verificar si no quedan usuarios en el array
+    usuarios_restantes = collection.find_one({}).get('usuarios', [])
+    if not usuarios_restantes:
+        # Eliminar el documento completo si no hay usuarios restantes
+        collection.delete_one({})
 
     mensaje = None
     if usuarios_eliminados:
@@ -71,6 +80,8 @@ def eliminar_usuario():
 
     usuarios = get_usuarios()
     return render_template('pages/eliminar_usuario.html', usuarios=usuarios, mensaje=mensaje)
+
+""
 
 # Obtiene la información de un usuario
 def get_user_info(username):
@@ -229,6 +240,9 @@ def inject_current_user():
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if session.get('authenticated'):
+        return redirect('/inicio')
+
     error_message = None
 
     if request.method == 'POST':
@@ -240,6 +254,12 @@ def login():
         if user:
             session['authenticated'] = True
             session['username'] = username
+
+            if request.form.get('remember'):
+                # Si se seleccionó "Recordar usuario", se configura la sesión para que dure más tiempo (por ejemplo, 30 días)
+                session.permanent = True
+                app.permanent_session_lifetime = timedelta(days=30)
+
             return redirect('/inicio')
         else:
             error_message = 'Credenciales incorrectas'
