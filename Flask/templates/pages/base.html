@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alcaldia de Panama</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="icon" href="static/images/icono.png" type="image/png">
+</head>
+<body>
+  <header>
+    <a href="/logout">Logout</a>
+  </header>
+
+  <main>
+    {% if get_flashed_messages() %}
+    <div class="flash-messages">
+      {% for message in get_flashed_messages() %}
+        <p class="flash-message">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% block content %}
+    <!-- Contenido específico de la página -->
+  {% endblock %}
+  </main>
+  {% include 'partials/footer.html' %}
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="static/js/upload.js"></script>
+  <script src="static/js/index.js"></script>
+</body>
+</html>
