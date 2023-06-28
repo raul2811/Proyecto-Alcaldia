@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
+<title>Alcaldia De Panama</title>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alcaldia de panama</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,31 +12,33 @@
     <link rel="icon" href="static/images/icono.png" type="image/png">
 </head>
 <body>
-    <div class="fondo">
-        <div class="contenedor-form">
+    <div class="contenedor-form">
+        <div class="contenedor-form-child">
+        </div><!Cierra contenedor-form-child>
+        <div class="contenedor-form-item">
+        </div><!Cierra contenedor-form-item>
             <form action="/login" method="POST" class="login-form">
-                <div class="iniciarsesion">INICIAR SESIÓN</div>
-                {% if error_message %}
-                <p>{{ error_message }}</p>
-                {% endif %}
-                <div class="form-group">
-                    <label for="username">Nombre de usuario:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="remember">Recordar usuario:</label>
-                    <input class="checkbox" type="checkbox" id="remember" name="remember">
-                </div>
-                <div class="form-group">
-                    <input class="boton" type="submit" value="Iniciar sesión">
-                </div>
+                <img class="logo-mupa" alt="" src="static/images/logo-mupa.png" />
+                    <div class="iniciarsesion">INICIAR SESIÓN
+                    </div><!Cierra iniciarsesion>
+                    {% if error_message %}
+                    <p class="Mensaje-de-error">{{ error_message }}</p>
+                    {% endif %}
+                    <label class="nombredeusuario" for="username">N° De Usuario
+                    </label>
+                    <input class="nombredeusuario-box" type="text" id="username" name="username" required>
+                    <label class="contrasena" for="password">Contraseña
+                    </label>
+                    <input class="contrasena-box" type="password" id="password" name="password" required>
+                    <label class="recordar-usuario"  for="remember">Recordar Usuario
+                    </label>
+                    <input class="recordar-usuario-checkbox"  type="checkbox" id="remember" name="remember">
+                    <div class="ingresar-box">
+                    <div class="ingresar-box2"></div>
+                    <input class="ingresar" type="submit" value="Ingresar">
+                    </div><!Cierra ingresar-box>
+    </div><!Cierra contenedor-form>
             </form>
-        </div>
-    </div>
     {% include 'partials/footer.html' %}
 </body>
 </html>

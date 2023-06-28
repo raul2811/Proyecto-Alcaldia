@@ -16,7 +16,7 @@ current_year = datetime.now().year
 
 
 # Configuración de la base de datos
-client = MongoClient('mongodb://localhost:27017')
+client = MongoClient('mongodb+srv://raulantoni2810:5PAaa1eLS8oNxQaP@cluster0.luklzfn.mongodb.net/')
 db = client['Usuarios']
 collection = db['users']
 
@@ -290,7 +290,7 @@ def index():
 
 def obtener_archivos():
     # Conexión a la base de datos
-    client = MongoClient('mongodb://localhost:27017')
+    client = MongoClient('mongodb+srv://raulantoni2810:5PAaa1eLS8oNxQaP@cluster0.luklzfn.mongodb.net/')
     db = client['Archivos']
     collection = db['Archivos']
     
@@ -301,7 +301,7 @@ def obtener_archivos():
 
 def subir_archivo():
     # Conexión a la base de datos
-    client = MongoClient('mongodb://localhost:27017')
+    client = MongoClient('mongodb+srv://raulantoni2810:5PAaa1eLS8oNxQaP@cluster0.luklzfn.mongodb.net/')
     db = client['Archivos']
     collection = db['Archivos']
 
@@ -364,7 +364,7 @@ def obtener_fecha_agregado(location):
 
 def visualizar_archivo(file_id):
     # Conexión a la base de datos
-    client = MongoClient('mongodb://localhost:27017')
+    client = MongoClient('mongodb+srv://raulantoni2810:5PAaa1eLS8oNxQaP@cluster0.luklzfn.mongodb.net/')
     db = client['Archivos']
     collection = db['Archivos']
 
@@ -404,8 +404,6 @@ def visualizar_archivo(file_id):
     return render_template('pages/error.html', error_message='El archivo solicitado no está disponible.')
 
 
-
-
 # Ruta para visualizar archivos
 @app.route('/visualizar_archivo/<file_id>')
 def visualizar_archivo_route(file_id):
@@ -413,7 +411,7 @@ def visualizar_archivo_route(file_id):
 
 def eliminar_archivo(file_id):
     # Conexión a la base de datos
-    client = MongoClient('mongodb://localhost:27017')
+    client = MongoClient('mongodb+srv://raulantoni2810:5PAaa1eLS8oNxQaP@cluster0.luklzfn.mongodb.net/')
     db = client['Archivos']
     collection = db['Archivos']
 
@@ -429,27 +427,39 @@ def eliminar_archivo(file_id):
             # Eliminar el archivo del servidor
             os.remove(location)
 
-            # Eliminar el registro del archivo de la base de datos
-            collection.delete_one({'file_id': file_id})
+        # Eliminar el archivo de la base de datos
+        collection.delete_one({'file_id': file_id})
 
-            return redirect('/inicio')
-
-    # Si el archivo no se encuentra o no existe, retornar un mensaje de error
-    return render_template('pages/error.html', error_message='El archivo solicitado no está disponible.')
+        # Redireccionar a la página de inicio con un mensaje de éxito
+        return redirect('/', success_message='El archivo ha sido eliminado exitosamente.')
+    else:
+        # Redireccionar a la página de inicio con un mensaje de error
+        return redirect('/', error_message='No se ha encontrado el archivo.')
 
 
 # Ruta para eliminar archivos
-@app.route('/eliminar_archivo/<file_id>')
-def eliminar_archivo_route(file_id):
-    return eliminar_archivo(file_id)
-
-def index():
-    # Obtener todos los archivos
-    archivos = obtener_archivos()
+@app.route('/eliminar_archivo', methods=['POST'])
+def eliminar_archivo_route():
+    file_ids = request.form.getlist('file_id')
     
-    if not session.get('authenticated'):
-        return redirect('/login')
-    return render_template('pages/index.html', archivos=archivos)
+    for file_id in file_ids:
+        eliminar_archivo(file_id)
+    
+    # Redireccionar a la página de inicio con un mensaje de éxito
+    return redirect('/', success_message='Los archivos seleccionados han sido eliminados exitosamente.')
+
+
+# Ruta para el formulario de eliminación de archivos
+@app.route('/formulario_eliminar_archivos')
+def formulario_eliminar_archivos():
+    # Obtener la lista de archivos desde la base de datos
+    client = MongoClient('mongodb+srv://raulantoni2810:5PAaa1eLS8oNxQaP@cluster0.luklzfn.mongodb.net/')
+    db = client['Archivos']
+    collection = db['Archivos']
+    archivos = collection.find()
+    
+    # Renderizar el formulario de eliminación de archivos
+    return render_template('eliminar_archivos.html', archivos=archivos)
 
 
 if __name__ == '__main__':

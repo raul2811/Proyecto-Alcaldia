@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
 {% block content %}
 <h1>Subir Archivo</h1>
     
@@ -26,4 +26,5 @@
     <div id="upload-message"></div>
     <button type="submit" class="btn btn-primary">Subir archivo</button>
 </form>
+<script src="static/js/upload.js"></script>
 {% endblock %}

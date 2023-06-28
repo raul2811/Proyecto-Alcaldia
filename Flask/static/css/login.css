@@ -1,76 +1,130 @@
-.fondo {
+body {
+  margin: 0;
+  line-height: normal;
+}
+.contenedor-form-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #c5d1ff;
   width: 1920px;
   height: 1080px;
-  background: #C5D1FF;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
-
-.contenedor-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
+.contenedor-form-item {
+  position: absolute;
+  top: 57px;
+  left: 153px;
+  border-radius: 27px;
+  background-color: #ffffff;
   width: 585px;
   height: 803px;
-  background: white;
-  border-radius: 27px;
-  padding: 40px;
-  box-sizing: border-box;
 }
-
-.form-group {
-  margin-bottom: 50px;
+.logo-mupa {
+  position: absolute;
+  top: 248px;
+  left: 922px;
+  width: 792px;
+  height: 411px;
+  object-fit: cover;
 }
-
 .iniciarsesion {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 10%;
-  color: #6382EE;
-  font-size: 4rem;
-  font-family: 'Inria Sans', sans-serif;
-  font-weight: 400;
-  word-wrap: break-word;
-  margin-bottom: 40px;
+  position: absolute;
+  top: 139px;
+  left: 272px;
+  font-size: 50px;
+  display: inline-block;
+  width: 384px;
+  height: 66px;
+  font-family: 'Inria Sans';
+  color: #6382ee;;
 }
 
 .nombredeusuario,
-.contrasena,
-.recordarUsuario {
-  width: 100%;
-  height: 6%;
-  color: #6382EE;
-  font-size: 2.5rem;
-  font-family: 'Inria Sans', sans-serif;
-  font-weight: 400;
-  word-wrap: break-word;
+.contrasena
+{
+  position: absolute;
+  top: 255px;
+  left: 204px;
+  display: inline-block;
+  width: 359px;
+  height: 81px;
+  font-family: 'Inria Sans';
+  font-size:30px;;
+  color: #6382ee;;
 }
-
+.nombredeusuario-box
+{
+  position: absolute;
+  top: 300px;
+  left: 204px;
+  font-size: 20px;
+  display: inline-block;
+  width: 471px;
+  height: 50px;
+  border: none; /* Quita todos los bordes */
+  border-bottom: 1px solid #000; /* Establece un borde inferior */
+}
+.contrasena
+{
+  top: 405px;
+}
+.contrasena-box
+{
+  top: 450px;
+  position: absolute;
+  display: inline-block;
+  font-size: 20px;
+  left: 204px;
+  border: none; /* Quita todos los bordes */
+  border-bottom: 1px solid #000; /* Establece un borde inferior */
+  width: 471px;
+  height: 50px;
+}
 input.checkbox {
   width: 22px;
   height: 21px;
-  background: #D9D9D9;
 }
 
-input.boton {
+.recordar-usuario {
+  position: absolute;
+  top: 561px;
+  left: 204px;
+  font-size: 18px;
+  color: #011250;
+  font-family: 'Inria Sans';
+  display: inline-block;
+}
+.recordar-usuario-checkbox
+{
+  position: absolute;
+  top: 558px;
+  left: 280px;
+  display: inline-block;
+  width: 148px;
+  height: 23px;
+}
+input.ingresar {
+  position: absolute;
+  height: 100%;
   width: 100%;
-  height: 8%;
-  background: #6382EE;
+  top: 26.67%;
+  left: 33.8%;
+  border-radius: 37.5px;
   border: none;
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  color: #ffffff;
+  font-size: 30px;
+  font-family: 'Inria Sans';
+  background-color: #6382ee;
 }
-
-input.boton:hover {
-  background: #4266C5;
+input.ingresar:hover
+{
+  background-color: #0F30A8;
 }
+.ingresar-box {
+  position: absolute;
+  top: 674px;
+  left: 150px;
+  width: 361px;
+  height: 75px;
+}
+    
